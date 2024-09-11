@@ -31,7 +31,10 @@ function NewUser() {
   const handleAddNewUser = (e) => {
     e.preventDefault()
     const newUser = { username, password, roles }
-    addNewUser(newUser)
+    const res = addNewUser(newUser)
+    if (res === 401) {
+      return <h1 className={styles.errmessage}>UNAUTHORIZED</h1>
+    }
     console.log(newUser)
     navigate(`/dash/users`)
   }

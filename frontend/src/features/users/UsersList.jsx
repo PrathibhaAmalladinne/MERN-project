@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 
 function UsersList() {
   const navigate = useNavigate()
+
   const onSuccess = (data) => {
     console.log("success", data)
   }
@@ -16,11 +17,16 @@ function UsersList() {
     onError
   )
   if (isLoading || isFetching) {
-    return <h1>Loading...</h1>
+    return <h1 className={styles.message}>Loading...</h1>
   }
   if (isError) {
-    console.log(error)
+    if (error.response.status === 401) {
+      return <h1 className={styles.errmessage}>UNAUTHORIZED</h1>
+    } else {
+      return <h1 className={styles.errmessage}>{error}</h1>
+    }
   }
+
   const handleAddNew = (e) => {
     e.preventDefault()
     navigate(`/dash/users/new`)
@@ -42,7 +48,7 @@ function UsersList() {
           </tr>
         </thead>
         <tbody>
-          {data?.data.map((user) => (
+          {data?.map((user) => (
             <UserItem user={user} key={user._id} />
           ))}
         </tbody>

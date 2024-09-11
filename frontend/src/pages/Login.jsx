@@ -1,45 +1,96 @@
-import { Link, NavLink } from "react-router-dom";
-// import PageNav from "../components/PageNav";
-import styles from "./Login.module.css";
-import { useState } from "react";
-// import Homepage from "./Homepage";
+import { useNavigate } from "react-router-dom"
+import styles from "./Login.module.css"
+import { useState, useRef, useEffect } from "react"
+import { useLogin } from "../hooks/useAuthData"
+// import usePersist from "../hooks/usePersist"
 
 function Login() {
-  // const[logout,setLogout] = useState(false);
-  const [email, setEmail] = useState("jack@example.com");
-  const [password, setPassword] = useState("qwerty");
+  const navigate = useNavigate()
+  const userRef = useRef()
+  const errRef = useRef()
+  const [username, setUsername] = useState("test")
+  const [password, setPassword] = useState("test123")
+  const [errMsg, setErrMsg] = useState("")
+  // const [persist, setPersist] = usePersist()
+
+  useEffect(() => {
+    userRef.current.focus()
+  }, [])
+  useEffect(() => {
+    setErrMsg("")
+  }, [username, password])
+  // const handleToggle = () => {
+  //   setPersist((prev) => !prev)
+  // }
+  const loginMutation = useLogin()
+  const credentials = { username, password }
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      await loginMutation.mutateAsync(credentials)
+      setUsername("")
+      setPassword("")
+      navigate("/dash")
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg("No Server Response")
+      } else if (err.response.status === 400) {
+        setErrMsg("Missing Username or Password")
+      } else if (err.response.status === 401) {
+        setErrMsg("Unauthorized")
+      } else {
+        setErrMsg(err.response.data?.message)
+      }
+      errRef.current.focus()
+    }
+  }
   return (
-    <main className={styles.login}>
-      
-      <NavLink to="/login" className={styles.ctaLink}>
-            Login
-      </NavLink>
-      
-      <form className={styles.form}>
+    <section className={styles.login}>
+      <p ref={errRef} aria-live="assertive" className={styles.errmsg}>
+        {errMsg}
+      </p>
+      {/* <h1>Login</h1> */}
+      <form
+        className={styles.form}
+        onSubmit={handleLogin}
+        // onSubmit={() => navigate("/dash")}
+      >
         <div className={styles.row}>
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="username">Username: </label>
           <input
-            type="email"
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            type="username"
+            id="username"
+            ref={userRef}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="off"
+            required
           />
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password: </label>
           <input
             type="password"
             id="password"
-            onChange={(e) => setPassword(e.target.value)}
             value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <div>
-          <Link to="/dash">
-            <button className={styles.btn}>Login</button>
-          </Link>
+          <button className={styles.btn}>Login</button>
         </div>
+        {/* <label htmlFor="persist">
+          <input
+            type="checkbox"
+            className={styles.checkboxcontainer}
+            id="persist"
+            onChange={handleToggle}
+            checked={persist}
+          />
+          Trust this device
+        </label> */}
       </form>
-    </main>
-  );
+    </section>
+  )
 }
 
-export default Login;
+export default Login

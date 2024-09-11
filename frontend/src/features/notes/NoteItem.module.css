@@ -29,6 +29,12 @@
 .note tr {
   display: contents;
 }
+.closed {
+  color: red;
+}
+.open {
+  color: green;
+}
 
 .note button {
   padding: 0.25em;

@@ -1,56 +1,99 @@
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query"
-import axios from "axios"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import useApi from "./useApi"
 
-const fetchUsers = () => {
-  return axios.get("http://localhost:3500/users")
-}
-
-const addNewUser = (newUser) => {
-  return axios.post("http://localhost:3500/users", newUser)
-}
-
-const deleteUser = (userId) => {
-  return axios.delete("http://localhost:3500/users", userId)
-}
-
+//GET
 export const useUsersData = () => {
-  return useQuery(["users-all"], fetchUsers, {})
-}
-export const useUserData = (userId, onSuccess, onError) => {
-  return useQuery(["users-all"], fetchUsers, {
-    onSuccess,
-    onError,
-    select: (data) => {
-      const user = data?.data.filter((user) => user._id === userId)
-      console.log(userId)
-      return user
+  const instance = useApi()
+  return useQuery(
+    ["users-all"],
+    async () => {
+      const response = await instance.get(`/users`)
+      return response.data
     },
-  })
+    {}
+  )
 }
-
+//POST
 export const useAddNewUser = () => {
+  const instance = useApi()
   const queryClient = useQueryClient()
-  return useMutation(addNewUser, {
-    onError: (error) => {
-      console.log(error.response.data)
-      console.log(error.response.status)
+  return useMutation(
+    async (newUser) => {
+      const response = await instance.post(`/users`, newUser)
+      return response.data
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries("users-all")
+    {
+      onError: (error) => {
+        console.log(error.response.data)
+        console.log(error.response.status)
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("users-all")
+      },
+    }
+  )
+}
+//PATCH
+export const useUpdateUser = () => {
+  const instance = useApi()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (updatedUser) => {
+      const response = await instance.patch(`/users`, updatedUser)
+      console.log(response)
+      return toString(response.data)
     },
-  })
+    {
+      onError: (error) => {
+        console.log(error.response.data)
+        console.log(error.response.status)
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("users-all")
+      },
+    }
+  )
+}
+//DELETE
+export const useDeleteUser = () => {
+  const instance = useApi()
+  const queryClient = useQueryClient()
+  return useMutation(
+    async (userId) => {
+      const response = await instance.delete(`/users/${userId}`, {
+        data: { id: userId },
+      })
+      // console.log(response, toString(response.data))
+      return response
+      // return toString(response.data)
+    },
+    {
+      onError: (error) => {
+        console.log(error.response.data)
+        console.log(error.response.status)
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("users-all")
+      },
+    }
+  )
 }
 
-export const useDeleteUser = () => {
-  const queryClient = useQueryClient()
-  return useMutation(deleteUser, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("users-all")
+export const useUserData = (userId, onSuccess, onError) => {
+  const instance = useApi()
+  return useQuery(
+    ["users-all"],
+    async () => {
+      const response = await instance.get(`/users`)
+      return response.data
     },
-  })
+    {
+      onSuccess,
+      onError,
+      select: (data) => {
+        const user = data?.filter((user) => user._id === userId)
+        return user
+      },
+    }
+  )
 }

@@ -6,13 +6,21 @@
       rgba(36, 42, 46, 0.95),
       rgba(36, 42, 46, 0.95)
     ),
-    url("/bg.jpg");
-
+    url("/image.png");
   background-size: cover;
   color: rgba(12, 159, 164, 01);
   background-position: center;
   background-repeat: no-repeat; /* Prevent background image from repeating */
   box-sizing: border-box;
+}
+.message {
+  padding-top: 100px;
+  padding-left: 300px;
+}
+.errmessage {
+  padding-top: 200px;
+  padding-left: 600px;
+  color: red;
 }
 .h2 {
   color: rgba(12, 159, 164, 01);
@@ -39,7 +47,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  break-after: 100px;
 }
 
 .input,
@@ -71,7 +78,6 @@
 
 .actionbuttons {
   display: flex;
-  padding-top: 3px;
   justify-content: flex-end;
   align-items: center;
   gap: 0.5em;
@@ -83,11 +89,9 @@
   display: flex;
   flex-flow: row nowrap;
   gap: 2em;
-  break-after: 250px;
 }
 .divider {
   display: flex;
   flex-flow: column nowrap;
   gap: 0.5em;
-  break-after: 250px;
 }

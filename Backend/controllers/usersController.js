@@ -27,7 +27,10 @@ const createNewUser = asyncHandler(async (req, res) => {
   }
 
   //check for duplicates
-  const duplicate = await User.findOne({ username }).lean().exec()
+  const duplicate = await User.findOne({ username })
+    .collation({ locale: "en", strength: 2 })
+    .lean()
+    .exec()
   if (duplicate) {
     return res.status(400).json({ message: "Duplicate username" })
   }
@@ -68,7 +71,10 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 
   //DUPLICATE
-  const duplicate = await User.findOne({ username }).lean().exec()
+  const duplicate = await User.findOne({ username })
+    .collation({ locale: "en", strength: 2 })
+    .lean()
+    .exec()
   //allow updates to the og
   if (duplicate && duplicate?.id.toString() !== id) {
     return res.status(409).json({ message: "DUPLICATE USERNAME" })
@@ -93,10 +99,12 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (!id) {
     return res.status(400).json({ message: "USER ID REQUIRED" })
   }
+
   const note = await Note.findOne({ user: id }).lean().exec()
   if (note) {
     return res.status(400).json({ message: "USER HAS ASSIGNED NOTES" })
   }
+
   const user = await User.findById(id).exec()
 
   if (!user) {

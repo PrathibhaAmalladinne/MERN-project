@@ -30,8 +30,37 @@
   position: absolute;
   right: 4.5rem;
 }
+.message {
+  padding-top: 100px;
+  padding-left: 300px;
+}
+.errmessage {
+  padding-top: 200px;
+  padding-left: 600px;
+  color: red;
+}
 .h2 {
   color: rgba(12, 159, 164, 01);
+  padding-top: 100px;
+  padding-left: 500px;
+  padding-bottom: 40px;
+  position: relative;
+}
+.addbutton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  position: relative;
+  top: 100px;
+  left: 540px;
+}
+.h1 {
+  color: white;
   padding-top: 100px;
   padding-left: 500px;
   padding-bottom: 40px;
@@ -45,7 +74,7 @@
       rgba(36, 42, 46, 0.95),
       rgba(36, 42, 46, 0.95)
     ),
-    url("/bg.jpg");
+    url("/image.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; /* Prevent background image from repeating */

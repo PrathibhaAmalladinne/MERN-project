@@ -1,60 +1,25 @@
-import { useRef } from "react"
-import { useAddNewNote } from "../../hooks/useNotesData"
-import styles from "./NewNote.module.css"
-// import axios from "axios"
-// import { useMutation } from "react-query"
+import { useUsersData } from "../../hooks/useUsersData"
+import NewNoteForm from "./NewNoteForm"
+
 function NewNote() {
-  const { mutate: addNewNote } = useAddNewNote()
-
-  const titleRef = useRef()
-  const textRef = useRef()
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    console.log(titleRef.current.value, textRef.current.value)
-
-    const newNote = {
-      title: titleRef.current.value,
-      text: textRef.current.value,
-      user: "66afd520b5bdc3702c6e37f9",
-    }
-    addNewNote(newNote)
+  const onSuccess = (data) => {
+    console.log("success", data)
+  }
+  const onError = (error) => {
+    console.log("error", error)
+  }
+  const { isLoading, isFetching, isError, error, data } = useUsersData(
+    onSuccess,
+    onError
+  )
+  if (isLoading || isFetching) {
+    return <h1>Loading...</h1>
+  }
+  if (isError) {
+    console.log(error)
   }
 
-  return (
-    <>
-      <form className={styles.form}>
-        <div className={styles.titlerow}>
-          <h1 className={styles.h2}>New Note</h1>
-          {/* <div className={styles.actionbuttons}>
-            <button className={styles.iconbutton}>SAVE</button>
-            <button className={styles.iconbutton}>DELETE</button>
-          </div> */}
-        </div>
-        <label className={styles.label} htmlFor="note-title">
-          Title:
-        </label>
-        <input id="note-title" name="title" type="text" value={titleRef} />
-        <label className={styles.label} htmlFor="note-text">
-          Text:
-        </label>
-        <input
-          className={styles.inputtext}
-          id="note-text"
-          name="text"
-          type="text"
-          value={textRef}
-          onChange={(e) => e.target.value}
-        />
-
-        <div className={styles.divider}>
-          <button onClick={handleSubmit} className={styles.actionbuttons}>
-            SUBMIT
-          </button>
-        </div>
-      </form>
-    </>
-  )
+  return <NewNoteForm users={data} />
 }
 
 export default NewNote

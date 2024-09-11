@@ -10,7 +10,13 @@ function NoteItem({ note }) {
       <tr className={styles.note}>
         <td>{title}</td>
         <td>{username}</td>
-        <td>{completed ? <span>Closed</span> : <span>Open</span>}</td>
+        <td>
+          {completed ? (
+            <p className={styles.closed}>Closed</p>
+          ) : (
+            <p className={styles.open}>Open</p>
+          )}
+        </td>
         <td>{createdAt}</td>
         <td>{updatedAt}</td>
         <td>

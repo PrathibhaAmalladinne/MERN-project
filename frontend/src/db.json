@@ -43,14 +43,14 @@
       "username": "new",
       "password": "new",
       "roles": ["Employee"],
-      "status": "active"
+      "active": true
     },
     {
       "_id": "66afd520b5bdc3702c6e37f9",
       "username": "Prat",
       "password": "Prat",
       "roles": ["Employee"],
-      "status": "active"
+      "active": true
     }
   ]
 }

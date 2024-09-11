@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom"
 import styles from "./SideBar.module.css"
+import useAuthorization from "../hooks/useAuthorization"
 function SideBar() {
+  const { isAdmin, isManager } = useAuthorization()
+
   return (
     <main className={styles.sidebar}>
       <ul>
@@ -11,10 +14,14 @@ function SideBar() {
           <NavLink to="/dash/notes/new">Add a new note</NavLink>
         </li>
         <li>
-          <NavLink to="/dash/users">User Settings</NavLink>
+          {(isAdmin || isManager) && (
+            <NavLink to="/dash/users">User Settings</NavLink>
+          )}
         </li>
         <li>
-          <NavLink to="/dash/users/new">Add a new user</NavLink>
+          {(isAdmin || isManager) && (
+            <NavLink to="/dash/users/new">Add a new user</NavLink>
+          )}
         </li>
       </ul>
     </main>

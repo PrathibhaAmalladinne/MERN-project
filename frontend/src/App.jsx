@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
+// import ForLoggingOut from "./components/ForLoggingout"
 import About from "./pages/About"
 import DashLayout from "./pages/DashLayout"
 import NotesList from "./features/notes/NotesList"
@@ -9,41 +10,49 @@ import EditNote from "./features/notes/EditNote"
 import NewNote from "./features/notes/NewNote"
 import EditUser from "./features/users/EditUser"
 import NewUser from "./features/users/NewUser"
-// import { useQuery } from "react-query"
-// import { getNote } from "./features/notes/api"
-
+import { AuthContextProvider } from "./context/AuthContext"
+// import RequireAuth from "./features/RequireAuth"
 function App() {
-  // const { id } = useParams()
-  //  const note = useSelector((state) => state.notes.selectNoteById(id))
-  //  const ticket = note.ticket
-  // const noteQuery = useQuery({
-  //   queryKey: ["notes", id],
-  //   queryFn: () => getNote(id),
-  // })
-  // if (noteQuery.status === "loading") return <h1>Loading...</h1>
-  // if (noteQuery.status === "error")
-  //   return <h1>{JSON.stringify(noteQuery.error)}</h1>
-  // console.log("nasryyy")
+  const ROLES = {
+    Employee: "Employee",
+    Manager: "Manager",
+    Admin: "Admin",
+  }
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<Homepage />} />
-        <Route path="about" element={<About />} />
-        <Route path="login" element={<Login />} />
-        <Route path="dash" element={<DashLayout />}>
-          <Route path="notes">
-            <Route index element={<NotesList />} />
-            <Route path="new" element={<NewNote />} />
-            <Route path=":noteId" element={<EditNote />} />
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Routes>
+          {/*public routes */}
+          <Route index element={<Homepage />} />
+          <Route path="about" element={<About />} />
+          <Route path="login" element={<Login />} />
+          {/*protected routes */}
+          {/* <Route
+            element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}
+          > */}
+          <Route path="dash" element={<DashLayout />}>
+            <Route path="notes">
+              <Route index element={<NotesList />} />
+              <Route path="new" element={<NewNote />} />
+              <Route path=":noteId" element={<EditNote />} />
+            </Route>
+            {/* <Route
+                element={
+                  <RequireAuth allowedRoles={[ROLES.Admin, ROLES.Manager]} />
+                }
+              > */}
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route path="new" element={<NewUser />} />
+              <Route path=":userId" element={<EditUser />} />
+            </Route>
           </Route>
-          <Route path="users">
-            <Route index element={<UsersList />} />
-            <Route path="new" element={<NewUser />} />
-            <Route path=":userId" element={<EditUser />} />
-          </Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* </Route> */}
+          {/* </Route> */}
+          {/*End of protected routes */}
+        </Routes>
+      </BrowserRouter>
+    </AuthContextProvider>
   )
 }
 

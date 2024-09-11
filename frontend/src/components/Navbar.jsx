@@ -1,17 +1,25 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Logo from "./Logo"
 import styles from "./Navbar.module.css"
+import { useSendLogout } from "../hooks/useAuthData"
 
 function Navbar() {
+  const navigate = useNavigate()
+  const { mutate: nothing } = useSendLogout()
+  const handleLogout = (e) => {
+    e.preventDefault()
+    nothing(null)
+    navigate(`/`)
+  }
+
   return (
     <nav className={styles.nav}>
       <Link to="/dash">
-        {" "}
-        <Logo />{" "}
+        <Logo />
       </Link>
       <ul>
         <li className="cta">
-          <NavLink to="/">Logout</NavLink>
+          <button onClick={handleLogout}>Logout</button>
         </li>
       </ul>
     </nav>

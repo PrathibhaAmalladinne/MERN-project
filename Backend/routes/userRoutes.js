@@ -9,6 +9,7 @@ router
   .get(usersController.getAllUsers) //read
   .post(usersController.createNewUser) //create
   .patch(usersController.updateUser) //update
-  .delete(usersController.deleteUser) //delete
+
+router.delete("/:id", usersController.deleteUser) //delete
 
 module.exports = router
