@@ -9,7 +9,7 @@ const errorHandler = require("./middleware/errorHandler")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const corsOptions = require("./config/corsOptions")
-// const connectDB = require("./config/dbConn")
+const connectDB = require("./config/dbConn")
 
 const PORT = process.env.PORT || 3500
 
@@ -29,10 +29,10 @@ app.use("/users", require("./routes/userRoutes"))
 app.use("/notes", require("./routes/noteRoutes"))
 app.use("/auth", require("./routes/authRoutes"))
 
-// connectDB()
-mongoose.connect(process.env.DATABASE_URI, {
-  connectTimeoutMS: 60000,
-})
+connectDB()
+// mongoose.connect(process.env.DATABASE_URI, {
+//   connectTimeoutMS: 60000,
+// })
 
 app.all("*", (req, res) => {
   res.status(404)
