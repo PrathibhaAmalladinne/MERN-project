@@ -64,3 +64,15 @@ const useApi = () => {
 }
 
 export default useApi
+
+// vercel.json
+// {
+//   "version": 2,
+//   "builds": [{ "src": "*.js", "use": "@vercel/node" }],
+//   "routes": [
+//     {
+//       "src": "/(.*)",
+//       "dest": "/"
+//     }
+//   ]
+// }
