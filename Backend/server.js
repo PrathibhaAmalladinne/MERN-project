@@ -3,7 +3,7 @@ const express = require("express")
 const app = express()
 const path = require("path")
 const mongoose = require("mongoose")
-const { logger, logEvents } = require("./middleware/logger")
+// const { logger, logEvents } = require("./middleware/logger")
 const { error } = require("console")
 const errorHandler = require("./middleware/errorHandler")
 const cookieParser = require("cookie-parser")
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3500
 
 console.log(process.env.NODE_ENV)
 
-app.use(logger)
+// app.use(logger)
 
 app.use(cors(corsOptions))
 
@@ -53,8 +53,8 @@ mongoose.connection.once("open", () => {
 
 mongoose.connection.on("error", (err) => {
   console.log(err)
-  logEvents(
-    `${err.no}: ${err.code}\t${req.syscall}\t${req.hostname}`,
-    "mongoErrLog.log"
-  )
+  // logEvents(
+  //   `${err.no}: ${err.code}\t${req.syscall}\t${req.hostname}`,
+  //   "mongoErrLog.log"
+  // )
 })
