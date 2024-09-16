@@ -1,5 +1,5 @@
 const rateLimit = require("express-rate-limit")
-const { logEvents } = require("./logger")
+// const { logEvents } = require("./logger")
 const { options } = require("../routes/noteRoutes")
 
 const loginLimiter = rateLimit({

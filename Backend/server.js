@@ -3,6 +3,7 @@ const express = require("express")
 const app = express()
 const path = require("path")
 const mongoose = require("mongoose")
+const rateLimit = require("express-rate-limit")
 // const { logger, logEvents } = require("./middleware/logger")
 const { error } = require("console")
 const errorHandler = require("./middleware/errorHandler")
@@ -16,7 +17,14 @@ const PORT = process.env.PORT || 3500
 console.log(process.env.NODE_ENV)
 
 // app.use(logger)
-
+app.set("trust proxy", 1)
+const limiter = rateLimit({
+  windowsMs: 1 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+app.use(limiter)
 app.use(cors(corsOptions))
 
 app.use(express.json())
