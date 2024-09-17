@@ -20,6 +20,7 @@ const corsOptions = {
     "Content-Length",
     "Content-MD5",
     "Content-Type",
+    "Authorization",
     "Date",
     "X-Api-Version",
   ],
