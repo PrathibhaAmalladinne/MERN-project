@@ -4,23 +4,24 @@ const app = express()
 const path = require("path")
 const mongoose = require("mongoose")
 const rateLimit = require("express-rate-limit")
-// const { logger, logEvents } = require("./middleware/logger")
-const { error } = require("console")
 const errorHandler = require("./middleware/errorHandler")
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const corsOptions = require("./config/corsOptions")
 const connectDB = require("./config/dbConn")
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3500 // Provide a default port
 
 console.log(process.env.NODE_ENV)
 
-// app.use(logger)
-// Enable preflight across-the-board
-app.options("*", cors(corsOptions))
+// CORS configuration
+app.use(cors(corsOptions))
+app.options("*", cors(corsOptions)) // Enable preflight across-the-board
 
+// Trust first proxy
 app.set("trust proxy", 1)
+
+// Rate limiting
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 100,
@@ -28,20 +29,22 @@ const limiter = rateLimit({
   legacyHeaders: false,
 })
 app.use(limiter)
-app.use(cors(corsOptions))
 
+// Built-in middleware
 app.use(express.json())
 app.use(cookieParser())
-
 app.use(express.static(path.join(__dirname, "public")))
 
+// Routes
 app.use("/", require("./routes/root"))
 app.use("/users", require("./routes/userRoutes"))
 app.use("/notes", require("./routes/noteRoutes"))
 app.use("/auth", require("./routes/authRoutes"))
 
+// Connect to database
 connectDB()
 
+// 404 handler
 app.all("*", (req, res) => {
   res.status(404)
   if (req.accepts("html")) {
@@ -53,8 +56,10 @@ app.all("*", (req, res) => {
   }
 })
 
+// Error handler
 app.use(errorHandler)
 
+// Start server
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB")
   app.listen(PORT, "0.0.0.0", () =>
@@ -64,8 +69,4 @@ mongoose.connection.once("open", () => {
 
 mongoose.connection.on("error", (err) => {
   console.log(err)
-  // logEvents(
-  //   `${err.no}: ${err.code}\t${req.syscall}\t${req.hostname}`,
-  //   "mongoErrLog.log"
-  // )
 })
