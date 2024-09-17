@@ -8,7 +8,6 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"))
     }
   },
-  // origin: ["https://mern-post-it.vercel.app/", "http://localhost:5173"],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS here
