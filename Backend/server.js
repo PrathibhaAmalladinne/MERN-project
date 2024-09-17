@@ -12,14 +12,17 @@ const cors = require("cors")
 const corsOptions = require("./config/corsOptions")
 const connectDB = require("./config/dbConn")
 
-const PORT = process.env.PORT || 3500
+const PORT = process.env.PORT
 
 console.log(process.env.NODE_ENV)
 
 // app.use(logger)
+// Enable preflight across-the-board
+app.options("*", cors(corsOptions))
+
 app.set("trust proxy", 1)
 const limiter = rateLimit({
-  windowsMs: 1 * 60 * 1000,
+  windowMs: 1 * 60 * 1000,
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
