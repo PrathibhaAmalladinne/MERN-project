@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
-// import ForLoggingOut from "./components/ForLoggingout"
 import About from "./pages/About"
 import DashLayout from "./pages/DashLayout"
 import NotesList from "./features/notes/NotesList"
