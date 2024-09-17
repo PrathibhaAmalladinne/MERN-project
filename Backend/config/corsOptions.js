@@ -10,20 +10,16 @@ const corsOptions = {
   },
   credentials: true,
   optionsSuccessStatus: 200,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS here
-  // allowedHeaders: ["Content-Type", "Authorization"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   allowedHeaders: [
-    "X-CSRF-Token",
-    "X-Requested-With",
-    "Accept",
-    "Accept-Version",
-    "Content-Length",
-    "Content-MD5",
     "Content-Type",
     "Authorization",
-    "Date",
-    "X-Api-Version",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
   ],
+  exposedHeaders: ["Content-Length", "X-Foo", "X-Bar"],
+  preflightContinue: false,
 }
 
 module.exports = corsOptions
