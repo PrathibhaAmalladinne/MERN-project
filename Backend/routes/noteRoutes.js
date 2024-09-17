@@ -9,8 +9,6 @@ router
   .get(notesController.getAllNotes)
   .post(notesController.createNewNote)
   .patch(notesController.updateNote)
-// .delete(notesController.deleteNote)
-
 router.delete("/:id", notesController.deleteNote) //delete
 
 module.exports = router

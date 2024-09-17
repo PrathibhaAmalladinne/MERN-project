@@ -22,23 +22,23 @@ function Login() {
   const credentials = { username, password }
   const handleLogin = async (e) => {
     e.preventDefault()
-    // try {
-    //   await loginMutation.mutateAsync(credentials)
-    //   setUsername("")
-    //   setPassword("")
-    navigate("/dash")
-    // } catch (err) {
-    //   if (!err.response) {
-    //     setErrMsg("No Server Response")
-    //   } else if (err.response.status === 400) {
-    //     setErrMsg("Missing Username or Password")
-    //   } else if (err.response.status === 401) {
-    //     setErrMsg("Unauthorized")
-    //   } else {
-    //     setErrMsg(err.response.data?.message)
-    //   }
-    //   errRef.current.focus()
-    // }
+    try {
+      await loginMutation.mutateAsync(credentials)
+      setUsername("")
+      setPassword("")
+      navigate("/dash")
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg("No Server Response")
+      } else if (err.response.status === 400) {
+        setErrMsg("Missing Username or Password")
+      } else if (err.response.status === 401) {
+        setErrMsg("Unauthorized")
+      } else {
+        setErrMsg(err.response.data?.message)
+      }
+      errRef.current.focus()
+    }
   }
   return (
     <section className={styles.login}>
