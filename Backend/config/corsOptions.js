@@ -11,7 +11,18 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS here
-  allowedHeaders: ["Content-Type", "Authorization"],
+  // allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: [
+    "X-CSRF-Token",
+    "X-Requested-With",
+    "Accept",
+    "Accept-Version",
+    "Content-Length",
+    "Content-MD5",
+    "Content-Type",
+    "Date",
+    "X-Api-Version",
+  ],
 }
 
 module.exports = corsOptions
