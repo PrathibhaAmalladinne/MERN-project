@@ -1,6 +1,6 @@
 const allowedOrigins = [
+  "https://mern-post-it.vercel.app/",
   "http://localhost:5173",
-  "https://mern-post-it-api.vercel.app/",
 ]
 
 module.exports = allowedOrigins
