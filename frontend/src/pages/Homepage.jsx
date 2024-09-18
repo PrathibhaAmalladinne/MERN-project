@@ -6,7 +6,7 @@ function Homepage() {
   // const val = loggedout;
   return (
     <main className={styles.homepage}>
-      <Link to="/about">
+      <Link to="about">
         <Logo />
       </Link>
       <section>
@@ -14,6 +14,11 @@ function Homepage() {
         <Link to="login" className="cta">
           Login to continue!
         </Link>
+        <p className={styles.para}>
+          <Link to="https://github.com/PrathibhaAmalladinne/MERN-project/blob/main/README.md">
+            Login Details
+          </Link>
+        </p>
       </section>
     </main>
   )
