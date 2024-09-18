@@ -6,7 +6,9 @@ Leveraged MongoDB, ExpressJS, ReactJS, NodeJS, React Query i.e. MERN stack to cr
 secure user authentication and role-based access to the application.
 
 There are three kinds of roles available.
-EMployee Access:
+
+
+Employee Access:
 username: employee
 password: employee
 
